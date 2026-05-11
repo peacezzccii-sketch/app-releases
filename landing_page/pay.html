@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover"/>
+  <meta name="theme-color" content="#07080c"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="format-detection" content="telephone=no"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="description" content="India Stream Hub — Download the free app. All premium content unlocked."/>
+  <title>India Stream Hub — Download App Free</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" as="style"/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    /* ─── TOKENS ─────────────────────────────────── */
+    :root {
+      --bg: #07080c;
+      --s1: #0e1018;
+      --s2: #141720;
+      --s3: #1b1f2c;
+      --text: #f2f4fb;
+      --sub: #8b93ae;
+      --dim: #4e5570;
+      --green: #22c55e;
+      --green2: #16a34a;
+      --gg: linear-gradient(135deg, #22c55e, #16a34a);
+      --greenglow: rgba(34,197,94,.25);
+      --r: #e8173a;
+      --glow: rgba(232,23,58,.28);
+      --border: rgba(255,255,255,.06);
+      --border2: rgba(255,255,255,.11);
+      --fn: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --safe-b: env(safe-area-inset-bottom, 0px);
+      --safe-l: env(safe-area-inset-left, 0px);
+      --safe-r: env(safe-area-inset-right, 0px);
+    }
+
+    /* ─── RESET ──────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    html {
+      height: 100%;
+      height: -webkit-fill-available;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      min-height: 100%;
+      min-height: 100dvh;
+      min-height: -webkit-fill-available;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--fn);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: clamp(16px, 4vw, 32px) clamp(12px, 4vw, 24px) calc(clamp(16px, 4vw, 32px) + var(--safe-b));
+      padding-left: max(clamp(12px, 4vw, 24px), var(--safe-l));
+      padding-right: max(clamp(12px, 4vw, 24px), var(--safe-r));
+      overflow-x: hidden;
+      overscroll-behavior-y: contain;
+    }
+
+    /* Ambient glow — GPU layer */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 100% 50% at 50% -8%, rgba(34,197,94,.06) 0%, transparent 60%),
+        radial-gradient(ellipse 70% 40% at 100% 100%, rgba(232,23,58,.04) 0%, transparent 55%);
+      pointer-events: none;
+      z-index: 0;
+      will-change: transform;
+      contain: strict;
+    }
+
+    /* ─── CARD ───────────────────────────────────── */
+    .pay-card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: min(420px, 100%);
+      background: linear-gradient(160deg, var(--s2), var(--s1));
+      border: 1px solid var(--border2);
+      border-radius: clamp(18px, 4vw, 28px);
+      padding: clamp(24px, 5vw, 40px) clamp(18px, 4.5vw, 32px) clamp(22px, 4vw, 36px);
+      text-align: center;
+      box-shadow: 0 24px 64px rgba(0,0,0,.45);
+      animation: cardIn .35s cubic-bezier(.34, 1.2, .64, 1);
+      contain: layout style;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px) scale(.96); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ─── LOGO ───────────────────────────────────── */
+    .pay-logo {
+      width: clamp(48px, 10vw, 68px);
+      height: clamp(48px, 10vw, 68px);
+      border-radius: clamp(12px, 2.5vw, 18px);
+      overflow: hidden;
+      margin: 0 auto clamp(10px, 2vw, 16px);
+      box-shadow: 0 4px 18px var(--glow);
+    }
+    .pay-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ─── FREE BADGE ─────────────────────────────── */
+    .free-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--gg);
+      color: #fff;
+      font-size: clamp(11px, 2.8vw, 14px);
+      font-weight: 800;
+      padding: clamp(5px, 1.2vw, 8px) clamp(12px, 3vw, 20px);
+      border-radius: 999px;
+      margin-bottom: clamp(12px, 2.5vw, 18px);
+      letter-spacing: .3px;
+      box-shadow: 0 4px 16px var(--greenglow);
+      animation: badgePulse 2.5s ease-in-out infinite;
+      will-change: box-shadow;
+    }
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 4px 16px var(--greenglow); }
+      50%      { box-shadow: 0 6px 28px rgba(34,197,94,.42); }
+    }
+
+    /* ─── TITLES ─────────────────────────────────── */
+    .pay-title {
+      font-size: clamp(19px, 4.8vw, 26px);
+      font-weight: 800;
+      letter-spacing: -.4px;
+      margin-bottom: clamp(4px, 1vw, 8px);
+      line-height: 1.3;
+    }
+    .pay-title .hl {
+      background: linear-gradient(90deg, var(--green), #4ade80);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pay-sub {
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 500;
+      color: var(--sub);
+      line-height: 1.55;
+      margin-bottom: clamp(16px, 3.5vw, 26px);
+    }
+
+    /* ─── OFFER STRIP ────────────────────────────── */
+    .offer-strip {
+      background: linear-gradient(135deg, rgba(34,197,94,.1), rgba(34,197,94,.04));
+      border: 1px solid rgba(34,197,94,.22);
+      border-radius: clamp(12px, 2.5vw, 16px);
+      padding: clamp(12px, 3vw, 18px);
+      margin-bottom: clamp(14px, 3vw, 20px);
+      display: flex;
+      align-items: center;
+      gap: clamp(10px, 2.5vw, 16px);
+    }
+    .offer-icon {
+      font-size: clamp(28px, 7vw, 40px);
+      flex-shrink: 0;
+      animation: bounce 2.2s ease-in-out infinite;
+      will-change: transform;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-3px); }
+    }
+    .offer-text { text-align: left; min-width: 0; }
+    .offer-text .big {
+      font-size: clamp(15px, 3.8vw, 20px);
+      font-weight: 800;
+      color: #4ade80;
+      letter-spacing: -.3px;
+    }
+    .offer-text .small {
+      font-size: clamp(10px, 2.5vw, 12px);
+      font-weight: 500;
+      color: var(--sub);
+      margin-top: 2px;
+    }
+
+    /* ─── STARS ───────────────────────────────────── */
+    .stars {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      margin-bottom: clamp(14px, 3vw, 20px);
+      flex-wrap: wrap;
+    }
+    .stars .star { color: #facc15; font-size: clamp(15px, 3.8vw, 20px); }
+    .stars .rating { font-size: clamp(12px, 3vw, 14px); font-weight: 700; color: #facc15; margin-left: 6px; }
+    .stars .reviews { font-size: clamp(10px, 2.5vw, 12px); font-weight: 500; color: var(--dim); margin-left: 4px; }
+
+    /* ─── LIVE USERS ─────────────────────────────── */
+    .users-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: clamp(14px, 3vw, 20px);
+      font-size: clamp(11px, 2.8vw, 13px);
+      font-weight: 600;
+      color: var(--sub);
+      flex-wrap: wrap;
+    }
+    .users-strip .dot {
+      width: 8px; height: 8px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--green);
+      animation: livepulse 1.4s ease-in-out infinite;
+      will-change: transform, opacity;
+      flex-shrink: 0;
+    }
+    @keyframes livepulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: .5; transform: scale(.7); }
+    }
+    .users-strip .count { color: #4ade80; font-weight: 800; }
+
+    /* ─── FEATURES ───────────────────────────────── */
+    .features {
+      text-align: left;
+      margin-bottom: clamp(16px, 3.5vw, 24px);
+    }
+    .feat {
+      display: flex;
+      align-items: flex-start;
+      gap: clamp(8px, 2vw, 12px);
+      padding: clamp(5px, 1.2vw, 8px) 0;
+      font-size: clamp(12px, 3vw, 14px);
+      font-weight: 500;
+      color: var(--sub);
+      line-height: 1.4;
+    }
+    .feat::before {
+      content: '✅';
+      font-size: clamp(13px, 3.2vw, 16px);
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    /* ─── COUNTDOWN ──────────────────────────────── */
+    .countdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: clamp(16px, 3.5vw, 22px);
+      flex-wrap: wrap;
+    }
+    .countdown-lbl {
+      font-size: clamp(10px, 2.5vw, 12px);
+      font-weight: 600;
+      color: var(--sub);
+      text-transform: uppercase;
+      letter-spacing: .8px;
+    }
+    .countdown-num {
+      font-size: clamp(14px, 3.5vw, 17px);
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: -.3px;
+      background: var(--s3);
+      border: 1px solid var(--border2);
+      padding: 3px 10px;
+      border-radius: 8px;
+      min-width: 54px;
+      text-align: center;
+      animation: ctpulse 1s ease-in-out infinite;
+      will-change: opacity;
+    }
+    @keyframes ctpulse { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
+    .countdown-num.urgent { color: var(--r); }
+
+    /* ─── DOWNLOAD BUTTON ────────────────────────── */
+    /*
+      ╔══════════════════════════════════════════════════════════╗
+      ║  👇 CHANGE THE href TO YOUR APK / APP DOWNLOAD URL 👇   ║
+      ╚══════════════════════════════════════════════════════════╝
+    */
+    .download-btn {
+      display: flex;
+      width: 100%;
+      height: clamp(50px, 11vw, 62px);
+      background: var(--gg);
+      border-radius: clamp(12px, 2.8vw, 18px);
+      font-family: var(--fn);
+      font-size: clamp(15px, 3.8vw, 18px);
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -.2px;
+      box-shadow: 0 8px 32px var(--greenglow);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 1.5vw, 12px);
+      transition: transform .12s ease, box-shadow .12s ease;
+      -webkit-tap-highlight-color: transparent;
+      position: relative;
+      overflow: hidden;
+      min-height: 48px; /* WCAG touch target */
+      contain: layout style;
+    }
+    .download-btn:active { transform: scale(.97); box-shadow: 0 4px 16px var(--greenglow); }
+
+    .download-btn .shimmer {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.18) 50%, transparent 60%);
+      background-size: 250% 100%;
+      animation: shimmer 2.8s ease-in-out infinite;
+      will-change: background-position;
+      contain: strict;
+    }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+    .download-btn svg {
+      width: clamp(18px, 4.5vw, 24px);
+      height: clamp(18px, 4.5vw, 24px);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .download-btn span { position: relative; z-index: 1; }
+
+    /* ─── SECONDARY INFO ─────────────────────────── */
+    .app-size {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(6px, 1.5vw, 14px);
+      margin-top: clamp(10px, 2.5vw, 16px);
+      font-size: clamp(10px, 2.5vw, 12px);
+      color: var(--dim);
+      font-weight: 600;
+      flex-wrap: wrap;
+    }
+    .app-size .info-item { display: flex; align-items: center; gap: 4px; }
+    .app-size svg {
+      width: 13px; height: 13px;
+      stroke: var(--dim); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .trust-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: clamp(10px, 2.5vw, 16px);
+      font-size: clamp(10px, 2.5vw, 12px);
+      color: var(--dim);
+      font-weight: 600;
+      flex-wrap: wrap;
+      text-align: center;
+    }
+    .trust-row svg {
+      width: 14px; height: 14px;
+      stroke: var(--green); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .fine-print {
+      font-size: clamp(9px, 2.2vw, 11px);
+      color: var(--dim);
+      margin-top: clamp(10px, 2.5vw, 16px);
+      line-height: 1.5;
+    }
+
+    /* ─── BACK LINK ──────────────────────────────── */
+    .back-link {
+      display: inline-block;
+      margin-top: clamp(14px, 3vw, 24px);
+      font-size: clamp(11px, 2.8vw, 13px);
+      font-weight: 600;
+      color: var(--dim);
+      text-decoration: none;
+      transition: color .15s ease;
+      position: relative;
+      z-index: 1;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-link:active { color: var(--sub); }
+
+    /* ─── TABLET + DESKTOP ───────────────────────── */
+    @media (min-width: 600px) {
+      .pay-card { max-width: 460px; padding: 40px 36px 36px; }
+    }
+    @media (min-width: 1024px) {
+      .pay-card { max-width: 480px; box-shadow: 0 40px 100px rgba(0,0,0,.5); }
+    }
+
+    /* ─── REDUCED MOTION ─────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="pay-card">
+    <div class="pay-logo">
+      <img src="icon.png" alt="India Stream Hub" width="64" height="64" loading="eager"/>
+    </div>
+
+    <div class="free-badge">🎉 100% FREE — No Payment Required</div>
+
+    <div class="pay-title">Everything is <span class="hl">FREE</span>!<br>Download App Now 🔥</div>
+    <p class="pay-sub">Get all premium content for free in the app — no subscription, no hidden fees!</p>
+
+    <div class="offer-strip">
+      <div class="offer-icon">📲</div>
+      <div class="offer-text">
+        <div class="big">Lifetime FREE Access</div>
+        <div class="small">Unlimited HD · No ads · No hidden charges · Forever</div>
+      </div>
+    </div>
+
+    <div class="stars">
+      <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+      <span class="rating">4.9</span>
+      <span class="reviews">(12.4k reviews)</span>
+    </div>
+
+
+
+    <div class="features">
+      <div class="feat">10,000+ exclusive premium videos — sab free</div>
+      <div class="feat">Har roz naye videos add hote hain</div>
+      <div class="feat">HD & 4K quality — crystal clear streaming</div>
+      <div class="feat">Koi registration nahi, koi payment nahi — seedha access</div>
+      <div class="feat">Sabhi Android phones pe kaam karta hai</div>
+    </div>
+
+    <div class="countdown-row">
+      <span class="countdown-lbl">Free offer valid for</span>
+      <span class="countdown-num" id="timer">9:59</span>
+    </div>
+
+    <a href="https://github.com/peacezzccii-sketch/app-releases/releases/download/latest-rolling/app.apk" id="downloadBtn" class="download-btn">
+      <div class="shimmer"></div>
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      <span>Abhi Download Karo — FREE! 🚀</span>
+    </a>
+
+    <div class="app-size">
+      <span class="info-item">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+        8.2 MB
+      </span>
+      <span>•</span>
+      <span>Android 5.0+</span>
+      <span>•</span>
+      <span>Instant Install</span>
+    </div>
+
+    <div class="trust-row">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Verified & Safe · No virus · Trusted by 50,000+ users
+    </div>
+
+    <div class="fine-print">By downloading you agree to our Terms of Service</div>
+  </div>
+
+  <a href="index.html" class="back-link">← Back to India Stream Hub</a>
+
+  <script>
+    /* Countdown */
+    var secs = 599, el = document.getElementById('timer'), iv;
+    function tick() {
+      var m = (secs / 60) | 0, s = secs % 60;
+      el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+      if (secs < 60) el.classList.add('urgent');
+      if (secs > 0) secs--;
+      else { el.textContent = 'EXPIRED'; clearInterval(iv); }
+    }
+    tick();
+    iv = setInterval(tick, 1000);
+
+    /* Analytics tracking */
+    const TRACKING_SECRET = "SUPER_SECRET_TRACKING_KEY_123";
+    document.getElementById('downloadBtn').addEventListener('click', function() {
+      fetch('/.netlify/functions/track-download', { 
+        method: 'POST', 
+        headers: {
+          'x-api-key': TRACKING_SECRET,
+          'Content-Type': 'application/json'
+        },
+        keepalive: true 
+      })
+      .catch(err => console.warn('Analytics ping failed', err));
+    });
+
+    /* Cleanup on page hide */
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) { clearInterval(iv); }
+      else { iv = setInterval(tick, 1000); }
+    });
+  </script>
+</body>
+</html>

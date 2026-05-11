@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Access</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --accent-red: #4a0404;
+            --accent-purple: #2a0845;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body, html {
+            height: 100%;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Ambient background glow */
+        .ambient-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: radial-gradient(circle at 30% 70%, rgba(74, 4, 4, 0.4) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(42, 8, 69, 0.4) 0%, transparent 50%);
+            filter: blur(60px);
+            animation: pulseBg 10s infinite alternate ease-in-out;
+        }
+        @keyframes pulseBg {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; transform: scale(1.05); }
+        }
+        /* Glassmorphism Container */
+        .container {
+            position: relative;
+            z-index: 10;
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        .button-container {
+            display: inline-block;
+            position: relative;
+        }
+        /* Glow effect behind button */
+        .button-glow {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #ff0000, #ff7300, #ff0000, #ff00c8, #ff0000);
+            z-index: -1;
+            border-radius: 12px;
+            filter: blur(15px);
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .button-container:hover .button-glow {
+            opacity: 0.7;
+            animation: glowing 20s linear infinite;
+        }
+        @keyframes glowing {
+            0% { background-position: 0 0; }
+            50% { background-position: 400% 0; }
+            100% { background-position: 0 0; }
+        }
+        .action-button {
+            background: linear-gradient(135deg, #3a0000 0%, #1a002a 100%);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 18px 60px;
+            font-size: 1.4rem;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+        .action-button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #4a0000 0%, #2a003a 100%);
+            border-color: rgba(255,255,255,0.3);
+        }
+        
+        .action-button:active {
+            transform: translateY(1px);
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-bg"></div>
+    <div class="container">
+        <h1>An Exclusive Experience</h1>
+        <p class="subtitle">Members Only.</p>
+        
+        <div class="button-container">
+            <div class="button-glow"></div>
+            <!-- Updated to match the actual repository in use -->
+            <a href="https://github.com/peacezzccii-sketch/tg-apk-updater-bot/releases/download/latest-rolling/app.apk" class="action-button" id="joinBtn">Join Now</a>
+        </div>
+        <div class="footer">
+            &copy; 2026 Velvet Room. All Rights Reserved.
+        </div>
+    </div>
+    <script>
+        const TRACKING_SECRET = "SUPER_SECRET_TRACKING_KEY_123"; // MUST MATCH TRACKING_SECRET IN NETLIFY ENV
+
+        document.getElementById('joinBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const downloadUrl = this.href;
+
+            // Fire and forget tracking call
+            fetch('/.netlify/functions/track-download', {
+                method: 'POST',
+                headers: {
+                    'x-api-key': TRACKING_SECRET,
+                    'Content-Type': 'application/json'
+                }
+            }).catch(err => console.error('Tracking failed:', err))
+            .finally(() => {
+                // Ensure the download happens regardless of tracking success
+                window.location.href = downloadUrl;
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+node_modules/
+.env
+.apk_backups/
+.netlify/
+*.apk
