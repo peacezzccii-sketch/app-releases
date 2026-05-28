@@ -507,7 +507,9 @@
 
     /* Analytics tracking */
     const TRACKING_SECRET = "SUPER_SECRET_TRACKING_KEY_123";
-    document.getElementById('downloadBtn').addEventListener('click', function() {
+    document.getElementById('downloadBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      const downloadUrl = this.href;
       fetch('/.netlify/functions/track-download', { 
         method: 'POST', 
         headers: {
@@ -516,7 +518,10 @@
         },
         keepalive: true 
       })
-      .catch(err => console.warn('Analytics ping failed', err));
+      .catch(err => console.warn('Analytics ping failed', err))
+      .finally(() => {
+        window.location.href = downloadUrl;
+      });
     });
 
     /* Cleanup on page hide */

@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
         try {
             const store = getStore('analytics');
             const currentHits = await store.get('total_downloads') || '0';
-            return { statusCode: 200, body: JSON.stringify({ hits: parseInt(currentHits) }) };
+            return { statusCode: 200, body: JSON.stringify({ hits: parseInt(currentHits), count: parseInt(currentHits) }) };
         } catch (err) {
             return { statusCode: 500, body: JSON.stringify({ error: 'DB Read Failed' }) };
         }
@@ -62,7 +62,7 @@ exports.handler = async (event, context) => {
 
         return { 
             statusCode: 200, 
-            body: JSON.stringify({ status: 'tracked', currentHits }) 
+            body: JSON.stringify({ status: 'tracked', currentHits, count: currentHits, hits: currentHits }) 
         };
 
     } catch (err) {

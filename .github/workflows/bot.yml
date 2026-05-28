@@ -32,5 +32,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           GITHUB_OWNER: ${{ secrets.OWNER_GITHUB }}
           GITHUB_REPO: ${{ secrets.REPO_GITHUB }}
-          LANDING_PAGE_URL: https://indiastreamhub.netlify.app
+           LANDING_PAGE_URL: ${{ secrets.LANDING_PAGE_URL }}
+           TRACKING_SECRET: ${{ secrets.TRACKING_SECRET }}
         run: node bot/bot.js

@@ -3,10 +3,10 @@ import { getStore } from "@netlify/blobs";
 export default async (req, context) => {
   try {
     const store = getStore('analytics');
-    const count = await store.get('downloads', { type: 'json' });
+    const count = await store.get('total_downloads');
     
     return new Response(JSON.stringify({ 
-      count: count === null ? 0 : count 
+      count: count === null ? 0 : parseInt(count, 10) 
     }), {
       status: 200,
       headers: { 
