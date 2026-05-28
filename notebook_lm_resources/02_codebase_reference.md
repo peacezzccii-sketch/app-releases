@@ -1,3 +1,140 @@
+# 💻 Codebase Reference: Core Implementations
+
+This document bundles the complete, production-grade source code of the Telegram APK Pipeline. Upload this to NotebookLM so the model understands exactly how the code is structured and written.
+
+---
+
+## 1. Netlify Infrastructure Configuration (`netlify.toml`)
+This configuration file instructs Netlify where the static frontend build lives and where to locate serverless functions.
+
+```toml
+[build]
+  publish = "landing_page"
+  functions = "netlify/functions"
+```
+
+---
+
+## 2. Serverless Analytics Track Download (`netlify/functions/track-download.js`)
+This serverless function intercepts the download, updates the persistent Netlify Blobs database, and pings the Telegram admin about the new download.
+
+```javascript
+const fetch = require('node-fetch');
+const { getStore } = require('@netlify/blobs');
+
+// Escapes characters that break Telegram's MarkdownV2
+const escapeMarkdown = (text) => {
+    return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
+};
+
+exports.handler = async (event, context) => {
+    // 1. HARDENED AUTH: Validate the secret tracking key
+    const apiKey = event.headers['x-api-key'];
+    if (apiKey !== process.env.TRACKING_SECRET) {
+        return { statusCode: 401, body: 'Unauthorized' };
+    }
+
+    // 2. STATS ROUTE: Quick read for the bot's /stats command
+    if (event.httpMethod === 'GET' && event.queryStringParameters && event.queryStringParameters.action === 'stats') {
+        try {
+            const store = getStore('analytics');
+            const currentHits = await store.get('total_downloads') || '0';
+            return { statusCode: 200, body: JSON.stringify({ hits: parseInt(currentHits), count: parseInt(currentHits) }) };
+        } catch (err) {
+            return { statusCode: 500, body: JSON.stringify({ error: 'DB Read Failed' }) };
+        }
+    }
+
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: 'Method Not Allowed' };
+    }
+
+    try {
+        const targetIp = event.headers['x-forwarded-for'] || event.headers['client-ip'] || 'Unknown IP';
+        const userAgent = event.headers['user-agent'] || 'Unknown Device';
+
+        // 3. PERSISTENCE: Increment the Netlify Blob counter
+        const store = getStore('analytics');
+        let currentHits = parseInt(await store.get('total_downloads') || '0');
+        currentHits += 1;
+        await store.set('total_downloads', currentHits.toString());
+
+        // 4. TELEMETRY PING: Send sanitized alert to Telegram
+        const botToken = process.env.TELEGRAM_BOT_TOKEN;
+        const adminId = process.env.ADMIN_TELEGRAM_ID;
+
+        const message = `🔥 *NEW HIT: Payload Downloaded*\n\n` +
+                        `👤 *Target IP:* \`${escapeMarkdown(targetIp)}\`\n` +
+                        `📱 *Device:* \`${escapeMarkdown(userAgent.substring(0, 40))}...\`\n\n` +
+                        `📊 *Total Downloads:* ${currentHits}`;
+
+        const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+        
+        // Fire-and-forget for production speed
+        fetch(tgUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: adminId,
+                text: message,
+                parse_mode: 'MarkdownV2'
+            })
+        }).catch(err => console.error("[TELEMETRY] Telegram ping failed:", err));
+
+        return { 
+            statusCode: 200, 
+            body: JSON.stringify({ status: 'tracked', currentHits, count: currentHits, hits: currentHits }) 
+        };
+
+    } catch (err) {
+        console.error("[ERROR] Tracker failed:", err);
+        return { statusCode: 500, body: 'Internal Server Error' };
+    }
+};
+```
+
+---
+
+## 3. Serverless Analytics Stats Retrieval (`netlify/functions/get-stats.js`)
+Exposes the total download count to external components.
+
+```javascript
+import { getStore } from "@netlify/blobs";
+
+export default async (req, context) => {
+  try {
+    const store = getStore('analytics');
+    const count = await store.get('total_downloads');
+    
+    return new Response(JSON.stringify({ 
+      count: count === null ? 0 : parseInt(count, 10) 
+    }), {
+      status: 200,
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
+  } catch (error) {
+    console.error("Error in get-stats:", error);
+    return new Response(JSON.stringify({ count: 0, error: error.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" }
+    });
+  }
+}
+
+export const config = {
+  path: "/get-stats"
+};
+```
+
+---
+
+## 4. Control Bot & Autonomous Healing Engine (`bot/bot.js`)
+This is the core daemon that monitors GitHub Releases and processes uploads from Telegram.
+
+```javascript
 import { Telegraf } from 'telegraf';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
@@ -28,7 +165,6 @@ process.on('uncaughtException', (err) => {
   console.error('🛡️ Guardian: Uncaught Exception:', err);
 });
 
-
 async function githubRequest(endpoint, options = {}) {
   const url = endpoint.startsWith('http') ? endpoint : `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}${endpoint}`;
   const res = await fetch(url, {
@@ -36,15 +172,11 @@ async function githubRequest(endpoint, options = {}) {
     headers: {
       'Authorization': `token ${GITHUB_TOKEN}`,
       'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'Telegram-APK-Pipeline-Bot',
       ...options.headers
     }
   });
   if (!res.ok && res.status !== 404) {
-    let text = '';
-    try {
-      text = await res.text();
-    } catch (_) {}
+    const text = await res.text();
     throw new Error(`GitHub API Error: ${res.status} ${res.statusText} - ${text}`);
   }
   return res;
@@ -64,21 +196,15 @@ const statsHandler = async (ctx) => {
     });
     if (!res.ok) throw new Error(`Failed to fetch stats: ${res.statusText}`);
     
-    let data;
-    try {
-      data = await res.json();
-    } catch (e) {
-      throw new Error('Invalid JSON response from stats server.');
-    }
+    const data = await res.json();
     const count = data.count || 0;
     
-    ctx.reply(`📊 <b>Download Statistics</b>\n\nTotal APK Downloads: <code>${count}</code>\n\n<i>Note: This data is synced from Netlify Blobs.</i>`, { parse_mode: 'HTML' });
+    ctx.reply(`📊 *Download Statistics*\n\nTotal APK Downloads: \`${count}\`\n\n_Note: This data is synced from Netlify Blobs._`, { parse_mode: 'Markdown' });
   } catch (err) {
     console.error('Stats Error:', err);
     ctx.reply('❌ Error: Could not retrieve download statistics. Make sure the landing page is online and the secret is correct.');
   }
 };
-
 
 bot.command('stats', statsHandler);
 bot.command('howmany', statsHandler);
@@ -93,7 +219,6 @@ bot.on('document', async (ctx) => {
   const tmpFilePath = path.join(os.tmpdir(), `app_${Date.now()}.apk`);
 
   try {
-    // 1. Download from Telegram to Local Storage (Reliable & prevents stream errors)
     const fileUrl = await ctx.telegram.getFileLink(doc.file_id);
     const tgRes = await fetch(fileUrl);
     if (!tgRes.ok) throw new Error('Failed to download from Telegram');
@@ -109,7 +234,6 @@ bot.on('document', async (ctx) => {
 
     await ctx.telegram.editMessageText(ctx.chat.id, waitMsg.message_id, null, '🔍 Checking GitHub for existing rolling release...');
 
-    // 2. Setup the "Rolling" Release
     const tagName = 'latest-rolling';
     let release;
     const getRelRes = await githubRequest(`/releases/tags/${tagName}`);
@@ -126,19 +250,10 @@ bot.on('document', async (ctx) => {
           prerelease: false
         })
       });
-      try {
-        release = await createRelRes.json();
-      } catch (e) {
-        throw new Error('Failed to parse release creation JSON response.');
-      }
+      release = await createRelRes.json();
     } else {
-      try {
-        release = await getRelRes.json();
-      } catch (e) {
-        throw new Error('Failed to parse release fetch JSON response.');
-      }
+      release = await getRelRes.json();
       
-      // 3. Auto-healing: Delete old assets to prevent "Validation Failed"
       await ctx.telegram.editMessageText(ctx.chat.id, waitMsg.message_id, null, '🧹 Cleaning up old assets and clearing cache...');
       for (const asset of release.assets) {
         if (asset.name === 'app.apk') {
@@ -149,7 +264,6 @@ bot.on('document', async (ctx) => {
 
     await ctx.telegram.editMessageText(ctx.chat.id, waitMsg.message_id, null, '🚀 Uploading new APK to GitHub CDN...');
 
-    // 4. Upload the new asset
     const uploadUrl = release.upload_url.replace('{?name,label}', '?name=app.apk');
     const assetRes = await fetch(uploadUrl, {
       method: 'POST',
@@ -157,21 +271,16 @@ bot.on('document', async (ctx) => {
         'Authorization': `token ${GITHUB_TOKEN}`,
         'Content-Type': 'application/vnd.android.package-archive',
         'Accept': 'application/vnd.github.v3+json',
-        'User-Agent': 'Telegram-APK-Pipeline-Bot',
         'Content-Length': stats.size.toString()
       },
       body: fs.createReadStream(tmpFilePath)
     });
 
     if (!assetRes.ok) {
-      let errText = '';
-      try {
-        errText = await assetRes.text();
-      } catch (_) {}
+      const errText = await assetRes.text();
       throw new Error(`Upload Failed: ${errText}`);
     }
 
-    // 5. Level 3 Healing: Save a local persistent backup for autonomous restoration
     fs.copyFileSync(tmpFilePath, LATEST_BACKUP);
 
     const directLink = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/download/${tagName}/app.apk`;
@@ -180,15 +289,14 @@ bot.on('document', async (ctx) => {
       ctx.chat.id, 
       waitMsg.message_id, 
       null, 
-      `✅ <b>Update Complete!</b>\n\nThe old APK was destroyed and the new one is live. The system healed itself.\n\nPermanent Link:\n${directLink}`,
-      { parse_mode: 'HTML' }
+      `✅ **Update Complete!**\n\nThe old APK was destroyed and the new one is live. The system healed itself.\n\nPermanent Link:\n${directLink}`,
+      { parse_mode: 'Markdown' }
     );
 
   } catch (error) {
     console.error(error);
     ctx.reply('❌ Error: ' + error.message);
   } finally {
-    // 5. Cleanup local temp file
     if (fs.existsSync(tmpFilePath)) {
       fs.unlinkSync(tmpFilePath);
     }
@@ -199,7 +307,6 @@ bot.on('document', async (ctx) => {
 async function runGuardianCycle() {
   console.log('🛡️ Guardian: Starting health check cycle...');
   try {
-    // Check GitHub Release Asset
     const tagName = 'latest-rolling';
     const relRes = await githubRequest(`/releases/tags/${tagName}`);
     
@@ -208,13 +315,7 @@ async function runGuardianCycle() {
       console.log('⚠️ Guardian: Rolling release GONE. GitHub probably nuked it. Healing...');
       needsHeal = true;
     } else {
-      let release;
-      try {
-        release = await relRes.json();
-      } catch (e) {
-        console.log('❌ Guardian Error: Failed to parse GitHub release JSON response.');
-        return;
-      }
+      const release = await relRes.json();
       const hasAsset = release.assets.some(a => a.name === 'app.apk');
       if (!hasAsset) {
         console.log('⚠️ Guardian: Release exists but app.apk is MISSING. Healing...');
@@ -239,19 +340,9 @@ async function runGuardianCycle() {
               draft: false, prerelease: false
             })
           });
-          try {
-            release = await createRelRes.json();
-          } catch (e) {
-            console.log('❌ Guardian Error: Failed to parse release creation JSON response.');
-            return;
-          }
+          release = await createRelRes.json();
         } else {
-          try {
-            release = await getRelRes.json();
-          } catch (e) {
-            console.log('❌ Guardian Error: Failed to parse release fetch JSON response.');
-            return;
-          }
+          release = await getRelRes.json();
           for (const asset of release.assets) {
             if (asset.name === 'app.apk') await githubRequest(`/releases/assets/${asset.id}`, { method: 'DELETE' });
           }
@@ -265,7 +356,6 @@ async function runGuardianCycle() {
             'Authorization': `token ${GITHUB_TOKEN}`,
             'Content-Type': 'application/vnd.android.package-archive',
             'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Telegram-APK-Pipeline-Bot',
             'Content-Length': stats.size.toString()
           },
           body: fs.createReadStream(LATEST_BACKUP)
@@ -275,11 +365,7 @@ async function runGuardianCycle() {
           console.log('✅ Guardian: Successfully healed GitHub Release.');
           if (ADMIN_ID !== 0) bot.telegram.sendMessage(ADMIN_ID, '🛡️ **Guardian Action:** GitHub release was restored autonomously. Link is back live.').catch(() => {});
         } else {
-          let errText = '';
-          try {
-            errText = await assetRes.text();
-          } catch (_) {}
-          throw new Error('Guardian Restoration Failed: ' + errText);
+          throw new Error('Guardian Restoration Failed: ' + await assetRes.text());
         }
       }
     }
@@ -295,25 +381,17 @@ async function runGuardianCycle() {
   }
 }
 
-// Run Guardian every 5 minutes
 setInterval(runGuardianCycle, 5 * 60 * 1000);
 
 console.log('🔍 Checking bot identity...');
 bot.telegram.getMe().then(me => {
   console.log(`✅ Bot is online: @${me.username} (${me.id})`);
-  
-  // Run Guardian immediately on startup
   runGuardianCycle();
-  
   console.log('🚀 Attempting to launch Telegram bot...');
-
   bot.launch().then(() => {
     console.log('🤖 Auto-Healing Telegram Bot is running...');
     if (ADMIN_ID !== 0) {
-      console.log(`📩 Sending startup message to admin (${ADMIN_ID})...`);
-      bot.telegram.sendMessage(ADMIN_ID, '🟢 System is running. Auto-healing bot online.').then(() => {
-          console.log('✅ Startup message sent.');
-      }).catch(err => {
+      bot.telegram.sendMessage(ADMIN_ID, '🟢 System is running. Auto-healing bot online.').catch(err => {
           console.error('❌ Failed to send startup message:', err.message);
       });
     }
@@ -326,7 +404,6 @@ bot.telegram.getMe().then(me => {
   process.exit(1);
 });
 
-
-
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
+```

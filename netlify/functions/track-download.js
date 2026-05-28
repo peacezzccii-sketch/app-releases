@@ -6,9 +6,15 @@ const escapeMarkdown = (text) => {
     return text.replace(/[_*[\]()~`>#+\-=|{}.!]/g, '\\$&');
 };
 
+// Escapes only backslashes and backticks inside MarkdownV2 inline code blocks
+const escapeCodeBlock = (text) => {
+    return text.replace(/[\`\\]/g, '\\$&');
+};
+
 exports.handler = async (event, context) => {
     // 1. HARDENED AUTH: Validate the secret tracking key
-    const apiKey = event.headers['x-api-key'];
+    const headers = event.headers || {};
+    const apiKey = headers['x-api-key'] || headers['X-API-Key'] || headers['x-api-key'.toLowerCase()];
     if (apiKey !== process.env.TRACKING_SECRET) {
         return { statusCode: 401, body: 'Unauthorized' };
     }
@@ -29,8 +35,8 @@ exports.handler = async (event, context) => {
     }
 
     try {
-        const targetIp = event.headers['x-forwarded-for'] || event.headers['client-ip'] || 'Unknown IP';
-        const userAgent = event.headers['user-agent'] || 'Unknown Device';
+        const targetIp = headers['x-forwarded-for'] || headers['client-ip'] || 'Unknown IP';
+        const userAgent = headers['user-agent'] || 'Unknown Device';
 
         // 3. PERSISTENCE: Increment the Netlify Blob counter
         const store = getStore('analytics');
@@ -43,14 +49,14 @@ exports.handler = async (event, context) => {
         const adminId = process.env.ADMIN_TELEGRAM_ID;
 
         const message = `🔥 *NEW HIT: Payload Downloaded*\n\n` +
-                        `👤 *Target IP:* \`${escapeMarkdown(targetIp)}\`\n` +
-                        `📱 *Device:* \`${escapeMarkdown(userAgent.substring(0, 40))}...\`\n\n` +
+                        `👤 *Target IP:* \`${escapeCodeBlock(targetIp)}\`\n` +
+                        `📱 *Device:* \`${escapeCodeBlock(userAgent.substring(0, 40))}...\`\n\n` +
                         `📊 *Total Downloads:* ${currentHits}`;
 
         const tgUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
         
-        // Fire-and-forget for production speed
-        fetch(tgUrl, {
+        // Await the promise to ensure the lambda container doesn't terminate before the fetch finishes
+        await fetch(tgUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
