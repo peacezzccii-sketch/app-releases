@@ -1,0 +1,656 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "Telegram APK Pipeline",
+    "languages": [
+      "javascript",
+      "html",
+      "yaml",
+      "toml",
+      "json"
+    ],
+    "frameworks": [
+      "netlify"
+    ],
+    "description": "Auto-healing Telegram bot for APK pipeline administration, serverless telemetry, and custom landing page funnels.",
+    "analyzedAt": "2026-05-28T07:32:58.231Z",
+    "gitCommitHash": "cdcfab982cae256978f435ae7bdd95de3f75c820"
+  },
+  "nodes": [
+    {
+      "id": "pipeline:.github/workflows/bot.yml",
+      "type": "pipeline",
+      "name": "bot.yml",
+      "filePath": ".github/workflows/bot.yml",
+      "summary": "Pipeline or infrastructure orchestration parameters for .github/workflows/bot.yml.",
+      "tags": [
+        "infrastructure",
+        "deployment",
+        "pipeline"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/AI_CONTEXT_PROMPT.md",
+      "type": "document",
+      "name": "AI_CONTEXT_PROMPT.md",
+      "filePath": "docs/AI_CONTEXT_PROMPT.md",
+      "summary": "Project documentation file mapping system design and manual for docs/AI_CONTEXT_PROMPT.md.",
+      "tags": [
+        "documentation",
+        "markdown",
+        "guide"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/USER_MANUAL.md",
+      "type": "document",
+      "name": "USER_MANUAL.md",
+      "filePath": "docs/USER_MANUAL.md",
+      "summary": "Project documentation file mapping system design and manual for docs/USER_MANUAL.md.",
+      "tags": [
+        "documentation",
+        "markdown",
+        "guide"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/journal.md",
+      "type": "document",
+      "name": "journal.md",
+      "filePath": "docs/journal.md",
+      "summary": "Project documentation file mapping system design and manual for docs/journal.md.",
+      "tags": [
+        "documentation",
+        "markdown",
+        "guide"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/master_documentation.md",
+      "type": "document",
+      "name": "master_documentation.md",
+      "filePath": "docs/master_documentation.md",
+      "summary": "Project documentation file mapping system design and manual for docs/master_documentation.md.",
+      "tags": [
+        "documentation",
+        "markdown",
+        "guide"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/recovery_report.md",
+      "type": "document",
+      "name": "recovery_report.md",
+      "filePath": "docs/recovery_report.md",
+      "summary": "Project documentation file mapping system design and manual for docs/recovery_report.md.",
+      "tags": [
+        "documentation",
+        "markdown",
+        "guide"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:landing_page/exclusive.html",
+      "type": "file",
+      "name": "exclusive.html",
+      "filePath": "landing_page/exclusive.html",
+      "summary": "Responsive user-facing HTML interface for user conversion and downloads at landing_page/exclusive.html.",
+      "tags": [
+        "frontend",
+        "markup",
+        "html"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:landing_page/index.html",
+      "type": "file",
+      "name": "index.html",
+      "filePath": "landing_page/index.html",
+      "summary": "Responsive user-facing HTML interface for user conversion and downloads at landing_page/index.html.",
+      "tags": [
+        "frontend",
+        "markup",
+        "html"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:landing_page/pay.html",
+      "type": "file",
+      "name": "pay.html",
+      "filePath": "landing_page/pay.html",
+      "summary": "Responsive user-facing HTML interface for user conversion and downloads at landing_page/pay.html.",
+      "tags": [
+        "frontend",
+        "markup",
+        "html"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:bot/.env.example",
+      "type": "config",
+      "name": ".env.example",
+      "filePath": "bot/.env.example",
+      "summary": "Configuration file for environment or build parameters at bot/.env.example.",
+      "tags": [
+        "config",
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:bot/bot.js",
+      "type": "file",
+      "name": "bot.js",
+      "filePath": "bot/bot.js",
+      "summary": "Core auto-healing Telegram bot for APK pipeline administration and stats retrieval.",
+      "tags": [
+        "bot",
+        "telegram",
+        "c2",
+        "entry-point"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:bot/bot.js:githubRequest",
+      "type": "function",
+      "name": "githubRequest",
+      "filePath": "bot/bot.js",
+      "lineRange": [
+        32,
+        47
+      ],
+      "summary": "Function definition for githubRequest inside bot/bot.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:bot/bot.js:statsHandler",
+      "type": "function",
+      "name": "statsHandler",
+      "filePath": "bot/bot.js",
+      "lineRange": [
+        53,
+        71
+      ],
+      "summary": "Function definition for statsHandler inside bot/bot.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:bot/bot.js:runGuardianCycle",
+      "type": "function",
+      "name": "runGuardianCycle",
+      "filePath": "bot/bot.js",
+      "lineRange": [
+        178,
+        254
+      ],
+      "summary": "Function definition for runGuardianCycle inside bot/bot.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:bot/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "bot/package.json",
+      "summary": "Configuration file for environment or build parameters at bot/package.json.",
+      "tags": [
+        "config",
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:landing_page/_headers",
+      "type": "file",
+      "name": "_headers",
+      "filePath": "landing_page/_headers",
+      "summary": "Source code implementing key parts of the project logic for path landing_page/_headers.",
+      "tags": [
+        "code",
+        "logic",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:landing_page/_redirects",
+      "type": "file",
+      "name": "_redirects",
+      "filePath": "landing_page/_redirects",
+      "summary": "Source code implementing key parts of the project logic for path landing_page/_redirects.",
+      "tags": [
+        "code",
+        "logic",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:netlify.toml",
+      "type": "config",
+      "name": "netlify.toml",
+      "filePath": "netlify.toml",
+      "summary": "Configuration file for environment or build parameters at netlify.toml.",
+      "tags": [
+        "config",
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:netlify/functions/get-stats.js",
+      "type": "file",
+      "name": "get-stats.js",
+      "filePath": "netlify/functions/get-stats.js",
+      "summary": "Serverless handler querying download statistics from Netlify Blobs.",
+      "tags": [
+        "stats",
+        "api",
+        "analytics"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:netlify/functions/track-download.js",
+      "type": "file",
+      "name": "track-download.js",
+      "filePath": "netlify/functions/track-download.js",
+      "summary": "Serverless function incrementing telemetry database on APK download clicks.",
+      "tags": [
+        "tracker",
+        "telemetry",
+        "database"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:netlify/functions/track-download.js:escapeMarkdown",
+      "type": "function",
+      "name": "escapeMarkdown",
+      "filePath": "netlify/functions/track-download.js",
+      "lineRange": [
+        5,
+        7
+      ],
+      "summary": "Function definition for escapeMarkdown inside netlify/functions/track-download.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:netlify/package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "netlify/package.json",
+      "summary": "Configuration file for environment or build parameters at netlify/package.json.",
+      "tags": [
+        "config",
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:package.json",
+      "type": "config",
+      "name": "package.json",
+      "filePath": "package.json",
+      "summary": "Configuration file for environment or build parameters at package.json.",
+      "tags": [
+        "config",
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:scratch/audit-telemetry.js",
+      "type": "file",
+      "name": "audit-telemetry.js",
+      "filePath": "scratch/audit-telemetry.js",
+      "summary": "Source code implementing key parts of the project logic for path scratch/audit-telemetry.js.",
+      "tags": [
+        "code",
+        "logic",
+        "implementation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:scratch/audit-telemetry.js:loadDotenv",
+      "type": "function",
+      "name": "loadDotenv",
+      "filePath": "scratch/audit-telemetry.js",
+      "lineRange": [
+        7,
+        19
+      ],
+      "summary": "Function definition for loadDotenv inside scratch/audit-telemetry.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:scratch/audit-telemetry.js:fetchMock",
+      "type": "function",
+      "name": "fetchMock",
+      "filePath": "scratch/audit-telemetry.js",
+      "lineRange": [
+        32,
+        47
+      ],
+      "summary": "Function definition for fetchMock inside scratch/audit-telemetry.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:scratch/audit-telemetry.js:runLiveAudit",
+      "type": "function",
+      "name": "runLiveAudit",
+      "filePath": "scratch/audit-telemetry.js",
+      "lineRange": [
+        61,
+        86
+      ],
+      "summary": "Function definition for runLiveAudit inside scratch/audit-telemetry.js.",
+      "tags": [
+        "function",
+        "code-block"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:stats/downloads.json",
+      "type": "config",
+      "name": "downloads.json",
+      "filePath": "stats/downloads.json",
+      "summary": "Configuration file for environment or build parameters at stats/downloads.json.",
+      "tags": [
+        "config",
+        "configuration",
+        "build-system"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "pipeline:.github/workflows/bot.yml",
+      "target": "file:bot/bot.js",
+      "type": "deploys",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "document:docs/AI_CONTEXT_PROMPT.md",
+      "target": "file:bot/bot.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/USER_MANUAL.md",
+      "target": "file:bot/bot.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/journal.md",
+      "target": "file:bot/bot.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/master_documentation.md",
+      "target": "file:bot/bot.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/recovery_report.md",
+      "target": "file:bot/bot.js",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "file:landing_page/exclusive.html",
+      "target": "file:netlify/functions/track-download.js",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:landing_page/index.html",
+      "target": "file:netlify/functions/track-download.js",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:landing_page/pay.html",
+      "target": "file:netlify/functions/track-download.js",
+      "type": "depends_on",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:bot/.env.example",
+      "target": "file:bot/bot.js",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:bot/bot.js",
+      "target": "function:bot/bot.js:githubRequest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:bot/bot.js",
+      "target": "function:bot/bot.js:statsHandler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:bot/bot.js",
+      "target": "function:bot/bot.js:runGuardianCycle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "config:bot/package.json",
+      "target": "file:bot/bot.js",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:netlify.toml",
+      "target": "file:bot/bot.js",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:netlify/functions/track-download.js",
+      "target": "function:netlify/functions/track-download.js:escapeMarkdown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "config:netlify/package.json",
+      "target": "file:bot/bot.js",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "config:package.json",
+      "target": "file:bot/bot.js",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    },
+    {
+      "source": "file:scratch/audit-telemetry.js",
+      "target": "function:scratch/audit-telemetry.js:loadDotenv",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:scratch/audit-telemetry.js",
+      "target": "function:scratch/audit-telemetry.js:fetchMock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:scratch/audit-telemetry.js",
+      "target": "function:scratch/audit-telemetry.js:runLiveAudit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "config:stats/downloads.json",
+      "target": "file:bot/bot.js",
+      "type": "configures",
+      "direction": "forward",
+      "weight": 0.6
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:bot",
+      "name": "Administration Telegram Bot",
+      "description": "Admin panel and auto-healing services running via GitHub Actions cron cycles.",
+      "nodeIds": [
+        "file:bot/bot.js",
+        "config:bot/package.json",
+        "config:bot/.env.example"
+      ]
+    },
+    {
+      "id": "layer:functions",
+      "name": "Serverless Telemetry API",
+      "description": "Netlify serverless functions for tracking metrics and querying database counts.",
+      "nodeIds": [
+        "file:netlify/functions/get-stats.js",
+        "file:netlify/functions/track-download.js",
+        "config:netlify/package.json",
+        "config:netlify.toml"
+      ]
+    },
+    {
+      "id": "layer:landing_page",
+      "name": "Conversion Funnel Landing Pages",
+      "description": "Static content pages driving traffic and serving the APK payload from GitHub.",
+      "nodeIds": [
+        "file:landing_page/index.html",
+        "file:landing_page/pay.html",
+        "file:landing_page/exclusive.html",
+        "file:landing_page/_headers",
+        "file:landing_page/_redirects"
+      ]
+    },
+    {
+      "id": "layer:docs",
+      "name": "Architecture Documentation",
+      "description": "Master docs, recovery reports, manuals, and journals defining system layout.",
+      "nodeIds": [
+        "document:docs/master_documentation.md",
+        "document:docs/AI_CONTEXT_PROMPT.md",
+        "document:docs/USER_MANUAL.md",
+        "document:docs/journal.md",
+        "document:docs/recovery_report.md"
+      ]
+    },
+    {
+      "id": "layer:infrastructure",
+      "name": "Infrastructure Workflows",
+      "description": "Continuous execution workflows and telemetry tests.",
+      "nodeIds": [
+        "pipeline:.github/workflows/bot.yml",
+        "file:scratch/audit-telemetry.js",
+        "config:package.json",
+        "config:stats/downloads.json"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "System Topology & Documentation",
+      "description": "Begin with the master architecture blueprints and documentation sheets.",
+      "nodeIds": [
+        "document:docs/master_documentation.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Telegram Bot Admin Panel & Auto-Healing Core",
+      "description": "Inspect the bot script which handles incoming APK uploads and monitors endpoints.",
+      "nodeIds": [
+        "file:bot/bot.js"
+      ]
+    },
+    {
+      "order": 3,
+      "title": "High-Conversion User Landing Funnel",
+      "description": "Browse index.html and pay.html which host fake streaming video feeds to drive payload installs.",
+      "nodeIds": [
+        "file:landing_page/index.html",
+        "file:landing_page/pay.html"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "Serverless Telemetry Tracking",
+      "description": "Observe track-download.js which pings administrators on target installations.",
+      "nodeIds": [
+        "file:netlify/functions/track-download.js"
+      ]
+    }
+  ]
+}

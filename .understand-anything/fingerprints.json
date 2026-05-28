@@ -1,0 +1,199 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "cdcfab982cae256978f435ae7bdd95de3f75c820",
+  "generatedAt": "2026-05-28T07:32:58.766Z",
+  "files": {
+    "landing_page/exclusive.html": {
+      "filePath": "landing_page/exclusive.html",
+      "contentHash": "942b40daa731d7abf276b1e6e4fe34c37740daf5bc9885eddc320c3d07d10645",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 173,
+      "hasStructuralAnalysis": false
+    },
+    "landing_page/index.html": {
+      "filePath": "landing_page/index.html",
+      "contentHash": "4e1705f454a3f3e7022be16f83acd451274096dafc8d7d78761adb9082afa173",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2370,
+      "hasStructuralAnalysis": false
+    },
+    "landing_page/pay.html": {
+      "filePath": "landing_page/pay.html",
+      "contentHash": "a770b1a23ee783febb60a1f87c752d020651fccd56afecff5ffd216e61022244",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 535,
+      "hasStructuralAnalysis": false
+    },
+    "bot/bot.js": {
+      "filePath": "bot/bot.js",
+      "contentHash": "fe9bb66b3fe57d1f5fabc1edfe68a64dbf8db3b6e74ce514cc55ce786d592fee",
+      "functions": [
+        {
+          "name": "githubRequest",
+          "params": [
+            "endpoint"
+          ],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "statsHandler",
+          "params": [
+            "ctx"
+          ],
+          "exported": false,
+          "lineCount": 19
+        },
+        {
+          "name": "runGuardianCycle",
+          "params": [],
+          "exported": false,
+          "lineCount": 77
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "telegraf",
+          "specifiers": [
+            "Telegraf"
+          ]
+        },
+        {
+          "source": "node-fetch",
+          "specifiers": [
+            "fetch"
+          ]
+        },
+        {
+          "source": "dotenv",
+          "specifiers": [
+            "dotenv"
+          ]
+        },
+        {
+          "source": "fs",
+          "specifiers": [
+            "fs"
+          ]
+        },
+        {
+          "source": "path",
+          "specifiers": [
+            "path"
+          ]
+        },
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 291,
+      "hasStructuralAnalysis": true
+    },
+    "landing_page/_headers": {
+      "filePath": "landing_page/_headers",
+      "contentHash": "bcc0b6b89c99ad8ee8d6ae14e0d6542c67960c235d0a24f2dbf188b005eb2b9a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": false
+    },
+    "landing_page/_redirects": {
+      "filePath": "landing_page/_redirects",
+      "contentHash": "66584af744075248a042165adbdbd6a0551fa708a85650ea1e3e777eee17080c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    "netlify/functions/get-stats.js": {
+      "filePath": "netlify/functions/get-stats.js",
+      "contentHash": "6c8ef1625fc74318292f3da0a78821b390ed4a760a0d103904a675dcd24192b0",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": "@netlify/blobs",
+          "specifiers": [
+            "getStore"
+          ]
+        }
+      ],
+      "exports": [
+        "config"
+      ],
+      "totalLines": 29,
+      "hasStructuralAnalysis": true
+    },
+    "netlify/functions/track-download.js": {
+      "filePath": "netlify/functions/track-download.js",
+      "contentHash": "5cf112d899c188d649d52456eeba6c2b09291c1a3765b59e4081b489e80097c2",
+      "functions": [
+        {
+          "name": "escapeMarkdown",
+          "params": [
+            "text"
+          ],
+          "exported": false,
+          "lineCount": 3
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 73,
+      "hasStructuralAnalysis": true
+    },
+    "scratch/audit-telemetry.js": {
+      "filePath": "scratch/audit-telemetry.js",
+      "contentHash": "d3d178dc73e21c0fdf5040cf94bf39e36e976b091abb4d72e72441fed45aba0e",
+      "functions": [
+        {
+          "name": "loadDotenv",
+          "params": [
+            "filePath"
+          ],
+          "exported": false,
+          "lineCount": 13
+        },
+        {
+          "name": "fetchMock",
+          "params": [
+            "url",
+            "options"
+          ],
+          "exported": false,
+          "lineCount": 16
+        },
+        {
+          "name": "runLiveAudit",
+          "params": [],
+          "exported": false,
+          "lineCount": 26
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 92,
+      "hasStructuralAnalysis": true
+    }
+  }
+}
