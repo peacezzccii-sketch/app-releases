@@ -9,6 +9,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "dependencies": {
+    "@netlify/blobs": "^10.7.8",
+    "node-fetch": "^2.7.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peacezzccii-sketch/app-releases.git"
